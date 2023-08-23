@@ -3,6 +3,21 @@
 
 
 # FUNÇOES
+
+import json
+
+
+def escrever_lista_em_json(lista, nome_arquivo):
+    with open(nome_arquivo, "w") as arquivo:
+        json.dump(lista, arquivo)
+
+def ler_lista_do_json(nome_arquivo):
+    try:
+        with open(nome_arquivo, "r") as arquivo:
+            lista = json.load(arquivo)
+        return lista
+    except:
+        return []
 def menu():
     print("-----MENU PRINCIPAL-----")
     print("1. Gerenciar Estudantes")
@@ -28,45 +43,58 @@ def submenu():
     elif funcao == "4" or funcao.lower() == "excluir":
         excluir()
     elif funcao == "0" or funcao.lower() == "menu principal":
-        menu_atual = "1".
+        menu_atual = "1"
     else:
         print()
         print("Operação Selecionada: INVÁLIDA. Tente novamente\n")
 
-def incluir(lista):
+def incluir():
         print()
         print("Operação Selecionada: === INCLUIR ===")
         try:
+            lista = ler_lista_do_json(nome_arquivo)
+            existe = 0
             cod = int(input("Digite o código: "))
-            nome = str(input("Digite o nome: "))
-            cpf = int(input("Digite o CPF: "))
-            cadastro = [cod, nome, cpf]
-            lista.append(cadastro)
-            print("Usuário cadastrado com sucesso.\n")
+            for registro in lista:
+                if cod == registro[0]:
+                    print("Código de usuário já cadastrado.")
+                    existe = 1
+            if existe == 0:
+                nome = str(input("Digite o nome: "))
+                cpf = int(input("Digite o CPF: "))
+                cadastro = [cod, nome, cpf]
+                lista.append(cadastro)
+                print("Usuário cadastrado com sucesso.\n")
+                escrever_lista_em_json(lista, nome_arquivo)
         except ValueError:
             print("Ação inválida. Tente novamente.")
 
-def atualizar(lista):
+def atualizar():
     print()
     print("Operação Selecionada: === ATUALIZAR ===")
+    lista = ler_lista_do_json(nome_arquivo)
     if len(lista) == 0:
         print("Não há usuários cadastrados\n")
     else:
         try:
             cod = int(input("Informe o código do usuário a ser editado: "))
+            existe = 0
             for registro in lista:
                 if cod == registro[0]:
                     registro[0] = int(input("Digite o código: "))
                     registro[1] = str(input("Digite o nome: "))
                     registro[2] = int(input("Digite o CPF: "))
-                else:
-                    print("Código inválido. Tente novamente.")
+                    existe = 1
+            if existe == 0:
+                print("Código inválido. Tente novamente.")
         except ValueError:
             print("Ação inválida. Tente novamente.")
+    escrever_lista_em_json(lista, nome_arquivo)
 
-def listar(lista):
+def listar():
     print()
     print("Operação Selecionada: === LISTAR ===")
+    lista = ler_lista_do_json(nome_arquivo)
     if len(lista) == 0:
         print("Não há usuários cadastrados\n")
     else:
@@ -76,29 +104,33 @@ def listar(lista):
             print("Nome: ", cadastro[1])
             print("CPF: ", cadastro[2], "\n")
 
-def excluir(lista):
+def excluir():
     print()
     print("Operação Selecionada: === EXCLUIR ===")
+    lista = ler_lista_do_json(nome_arquivo)
     if len(lista) == 0:  # Caso não haja itens na lista, executará este loop.
         print("Não há usuários cadastrados\n")
     else:
         try:
             cod = int(input("Informe o código do usuário a ser excluído: "))
-            for registro in lista_estudantes:
+            existe = 0
+            for registro in lista:
                 if cod == registro[0]:
                     lista.remove(registro)
                     print("O usuário foi excluído com sucesso.\n")
-                else:
-                    print("Código inválido. Tente novamente.")
+                    existe = 1
+            if existe == 0:
+                print("Código inválido. Tente novamente.")
         except ValueError:
             print("Ação inválida. Tente novamente.")
+    escrever_lista_em_json(lista,nome_arquivo)
 
 # IMPORTANTE
 
-
+nome_arquivo = 'lista_estudantes.json'
 menu_atual = "1" # O valor "menu_atual" é utilizado para navegação entre os menus.
-lista_estudantes = []
-lista_professores = []
+#lista_estudantes = []
+#lista_professores = []
 
 # MENU PRINCIPAL
 # Loop inicial para apresentação do menu principal.
@@ -113,7 +145,6 @@ while menu_atual == "1":
 
     elif proximo == "1" or proximo.lower() == "gerenciar estudantes":
         menu_atual = "2"
-        lista = lista_estudantes
         while menu_atual == "2":
             print("---{ESTUDANTES} Menu de Operações---")
             submenu()
@@ -128,8 +159,8 @@ while menu_atual == "1":
     elif proximo == "3" or proximo.lower() == "gerenciar professores":
         menu_atual = "4"
         lista = lista_professores
-        while menu_atual = "4"
-            print("---{ESTUDANTES} Menu de Operações---")
+        while menu_atual == "4":
+            print("---{PROFESSORES} Menu de Operações---")
             submenu()
     # TURMAS
 
