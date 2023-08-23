@@ -6,11 +6,12 @@
 
 import json
 
-
+# Função para escrever no arquivo JSON.
 def escrever_lista_em_json(lista, nome_arquivo):
     with open(nome_arquivo, "w") as arquivo:
         json.dump(lista, arquivo)
 
+# Função para ler lista no arquivo JSON.
 def ler_lista_do_json(nome_arquivo):
     try:
         with open(nome_arquivo, "r") as arquivo:
@@ -18,6 +19,8 @@ def ler_lista_do_json(nome_arquivo):
         return lista
     except:
         return []
+
+# Função para exibir o menu principal e opções.
 def menu():
     print("-----MENU PRINCIPAL-----")
     print("1. Gerenciar Estudantes")
@@ -27,6 +30,7 @@ def menu():
     print("5. Gerenciar Matrículas")
     print("0. Sair")
 
+# Função para exibir os menus secundários e executar suas funcionalidades de acordo com a entrada do usuário.
 def submenu():
     print("1. Incluir")
     print("2. Listar")
@@ -48,6 +52,11 @@ def submenu():
         print()
         print("Operação Selecionada: INVÁLIDA. Tente novamente\n")
 
+# As funções de incluir, atualizar e excluir lêem o arquivo JSON, e, posteriormente escrevem nele. A de listar apenas lê.
+# A variável "existe" é utilizada para validar se há outro cadastro com o mesmo código.
+
+# Função de cadastrar um usuário.
+
 def incluir():
         print()
         print("Operação Selecionada: === INCLUIR ===")
@@ -68,6 +77,8 @@ def incluir():
                 escrever_lista_em_json(lista, nome_arquivo)
         except ValueError:
             print("Ação inválida. Tente novamente.")
+
+# Função de editar as informações de um usuário cadastrado.
 
 def atualizar():
     print()
@@ -91,6 +102,8 @@ def atualizar():
             print("Ação inválida. Tente novamente.")
     escrever_lista_em_json(lista, nome_arquivo)
 
+# Função de listar todos os usuários cadastrados.
+
 def listar():
     print()
     print("Operação Selecionada: === LISTAR ===")
@@ -103,6 +116,8 @@ def listar():
             print("Código: ", cadastro[0])
             print("Nome: ", cadastro[1])
             print("CPF: ", cadastro[2], "\n")
+
+# Função de excluir um usuário cadastrado.
 
 def excluir():
     print()
@@ -129,8 +144,6 @@ def excluir():
 
 nome_arquivo = 'lista_estudantes.json'
 menu_atual = "1" # O valor "menu_atual" é utilizado para navegação entre os menus.
-#lista_estudantes = []
-#lista_professores = []
 
 # MENU PRINCIPAL
 # Loop inicial para apresentação do menu principal.
@@ -140,6 +153,8 @@ while menu_atual == "1":
     if proximo == "0" or proximo.lower() == "sair":
         print("Encerrando aplicação. Até a próxima! =)")
         menu_atual = "0"
+
+# Após a exibição do menu principal, executa os próximos laços dependendo da entrada do usuário.
 
     # ESTUDANTES
 
