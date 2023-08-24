@@ -37,46 +37,32 @@ def submenu():
     print("3. Atualizar")
     print("4. Excluir")
     print("0. Menu Principal")
-    funcao = input("Informe a operação desejada: ")
-    if funcao == "1" or funcao.lower() == "incluir":
-        incluir()
-    elif funcao == "2" or funcao.lower() == "listar":
-        listar()
-    elif funcao == "3" or funcao.lower() == "atualizar":
-        atualizar()
-    elif funcao == "4" or funcao.lower() == "excluir":
-        excluir()
-    elif funcao == "0" or funcao.lower() == "menu principal":
-        menu_atual = "1"
-    else:
-        print()
-        print("Operação Selecionada: INVÁLIDA. Tente novamente\n")
 
 # As funções de incluir, atualizar e excluir lêem o arquivo JSON, e, posteriormente escrevem nele. A de listar apenas lê.
 # A variável "existe" é utilizada para validar se há outro cadastro com o mesmo código.
 
 # Função de cadastrar um usuário.
 
-def incluir():
-        print()
-        print("Operação Selecionada: === INCLUIR ===")
-        try:
-            lista = ler_lista_do_json(nome_arquivo)
-            existe = 0
-            cod = int(input("Digite o código: "))
-            for registro in lista:
-                if cod == registro[0]:
-                    print("Código de usuário já cadastrado.")
-                    existe = 1
-            if existe == 0:
-                nome = str(input("Digite o nome: "))
-                cpf = int(input("Digite o CPF: "))
-                cadastro = [cod, nome, cpf]
-                lista.append(cadastro)
-                print("Usuário cadastrado com sucesso.\n")
-                escrever_lista_em_json(lista, nome_arquivo)
-        except ValueError:
-            print("Ação inválida. Tente novamente.")
+def incluir_pessoas():
+    print()
+    print("Operação Selecionada: === INCLUIR ===")
+    try:
+        lista = ler_lista_do_json(nome_arquivo)
+        existe = 0
+        cod = int(input("Digite o código: "))
+        for registro in lista:
+            if cod == registro[0]:
+                print("Código de usuário já cadastrado.")
+                existe = 1
+        if existe == 0:
+            nome = str(input("Digite o nome do estudante: "))
+            cpf = int(input("Digite o CPF: "))
+            print("Usuário cadastrado com sucesso.\n")
+            cadastro = [cod, nome, cpf]
+            lista.append(cadastro)
+        escrever_lista_em_json(lista, nome_arquivo)
+    except ValueError:
+        print("Ação inválida. Tente novamente.")
 
 # Função de editar as informações de um usuário cadastrado.
 
@@ -142,7 +128,7 @@ def excluir():
 
 # IMPORTANTE
 
-nome_arquivo = 'lista_estudantes.json'
+
 menu_atual = "1" # O valor "menu_atual" é utilizado para navegação entre os menus.
 
 # MENU PRINCIPAL
@@ -159,15 +145,48 @@ while menu_atual == "1":
     # ESTUDANTES
 
     elif proximo == "1" or proximo.lower() == "gerenciar estudantes":
+        nome_arquivo = 'lista_estudantes.json'
         menu_atual = "2"
         while menu_atual == "2":
             print("---{ESTUDANTES} Menu de Operações---")
             submenu()
+            funcao = input("Informe a operação desejada: ")
+            if funcao == "1" or funcao.lower() == "incluir":
+                incluir_pessoas()
+            elif funcao == "2" or funcao.lower() == "listar":
+                listar()
+            elif funcao == "3" or funcao.lower() == "atualizar":
+                atualizar()
+            elif funcao == "4" or funcao.lower() == "excluir":
+                excluir()
+            elif funcao == "0" or funcao.lower() == "menu principal":
+                menu_atual = "1"
+            else:
+                print()
+                print("Operação Selecionada: INVÁLIDA. Tente novamente\n")
 
     # DISCIPLINAS
 
     elif proximo == "2" or proximo.lower() == "gerenciar disciplinas":
-        print("EM DESENVOLVIMENTO\n")
+        nome_arquivo = 'lista_disciplinas.json'
+        menu_atual = "2"
+        while menu_atual == "2":
+            print("---{ESTUDANTES} Menu de Operações---")
+            submenu()
+            funcao = input("Informe a operação desejada: ")
+            if funcao == "1" or funcao.lower() == "incluir":
+                incluir()
+            elif funcao == "2" or funcao.lower() == "listar":
+                listar()
+            elif funcao == "3" or funcao.lower() == "atualizar":
+                atualizar()
+            elif funcao == "4" or funcao.lower() == "excluir":
+                excluir()
+            elif funcao == "0" or funcao.lower() == "menu principal":
+                menu_atual = "1"
+            else:
+                print()
+                print("Operação Selecionada: INVÁLIDA. Tente novamente\n")
 
     # PROFESSORES
 
